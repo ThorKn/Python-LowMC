@@ -74,7 +74,7 @@ class LowMC:
   '''
   # Generate private key with lenght self.keysize from urandom
   def generate_priv_key(self):
-    temp_key = os.urandom(self.keysize / 8)
+    temp_key = os.urandom(int(self.keysize / 8))
     self.__priv_key = BitVector(rawbytes = temp_key)
 
   # Set private key
