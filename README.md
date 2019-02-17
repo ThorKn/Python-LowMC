@@ -1,4 +1,7 @@
 # Python-LowMC
+## Description
+Python-LowMC is a Python reimplementation of the LowMC blockcipher. LowMC is used in the Post-quantum signature scheme Picnic. Python-LowMC exists because i want to understand and learn the Picnic algorithm. Therefore i started with LowMC as one part of Picnic. There is a own Github repo ([Python-Picnic](https://github.com/ThorKn/Python-Picnic)) for the Python implementation of Picnic.   
+## References
 LowMC (Low Multiplicative Complexity) is a blockcipher.
 The reference implementation is in C++ under MIT licence and can be found here:
 
@@ -15,9 +18,9 @@ The files in this Repository (Python-LowMC) are a Python re-implementation of Lo
 The Picnic paper is available at:
 
 [Picnic paper](https://microsoft.github.io/Picnic/)
-
+## Disclaimer
+This implementation is for the sole purpose of learning and understanding the LowMC algorithm. It's not recommended to use this code in productive environment. Additionaly this code is very slow, compared to the reference implementation (in C++). LowMC is optimized for efficient implementation in hardware, not in high-level languages.
 ## Prerequisites
-
 * Python3 (tested with 3.6)
 * Additional package: BitVector
 
