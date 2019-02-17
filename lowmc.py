@@ -80,7 +80,7 @@ class LowMC:
   # Set private key
   # @param priv_key as raw bytes with length self.keysize
   def set_priv_key(self, priv_key):
-    assert (len(priv_key) == self.keysize), "Private key has length != keysize"
+    assert (len(priv_key) * 8 == self.keysize), "Private key has length != keysize"
     self.__priv_key = BitVector(rawbytes = priv_key)
 
   # Encrypts a plaintext
@@ -88,7 +88,7 @@ class LowMC:
   # @return ciphertext as raw bytes with length blocksize
   def encrypt(self, plaintext):
     assert (len(plaintext) * 8) == self.blocksize, "Plaintext has length != blocksize"
-    assert (self.__priv_key != None), "Private key not set"
+    assert (self.__priv_key is not None), "Private key not set"
 
     self.__state = BitVector(rawbytes = plaintext)
 
@@ -109,7 +109,7 @@ class LowMC:
   # @return plaintext as raw bytes with length blocksize
   def decrypt(self, ciphertext):
     assert (len(ciphertext) * 8) == self.blocksize, "Ciphertext has length != blocksize"
-    assert (self.__priv_key != None), "Private key not set"
+    assert (self.__priv_key is not None), "Private key not set"
 
     self.__state = BitVector(rawbytes = ciphertext)
 
