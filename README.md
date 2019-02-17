@@ -19,7 +19,7 @@ The Picnic paper is available at:
 
 [Picnic paper](https://microsoft.github.io/Picnic/)
 ## Disclaimer
-This implementation is for the sole purpose of learning and understanding the LowMC algorithm. It's not recommended to use this code in productive environment. Additionaly this code is very slow, compared to the reference implementation (in C++). LowMC is optimized for efficient implementation in hardware, not in high-level languages.
+This implementation is for the sole purpose of learning and understanding the LowMC algorithm. It's not recommended to use this code in productive environment. Additionaly this code is very slow, compared to the reference implementation (in C++). LowMC is optimized for efficient implementation in hardware, not in high-level languages like Python.
 ## Prerequisites
 * Python3 (tested with 3.6)
 * Additional package: BitVector
@@ -44,3 +44,20 @@ To run the tests with the Picnic-testvectors, simply execute
 test_lowmc.py
 ```
 There are 9 testvectors included. Three for each security level. They are taken from the Picnic reference implementation (Link above).
+#### The LowMC Class
+You can instantiate LowMC by creating a LowMC Object from the file ```lowmc.py``` with the security level as a parameter string:
+```
+lowmc = LowMC('picnic-<x>')
+```
+with ```<x>``` beeing the security level L1, L2 or L3.
+
+On the LowMC object the following public functions are available:
+```
+generate_priv_key()
+set_priv_key(priv_key)
+encrypt(plaintext)
+decrypt(ciphertext)
+```
+Where the parameters ```priv_key```, ```plaintext``` and ```ciphertext``` are raw bytes and their lengths have to match the security level parameters for ```keysize``` and ```blocksize```. 
+
+For examples see the file ```test_lowmc.py```.
