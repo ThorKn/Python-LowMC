@@ -24,6 +24,10 @@ from BitVector import BitVector
 
 class LowMC:
 
+  __slots__ = ['blocksize', 'keysize', 'number_sboxes', 'number_rounds', 'filename', 'plaintext',
+               '__priv_key', '__state', '__lin_layer', '__lin_layer_inv', '__round_consts',
+               '__round_key_mats', '__sbox', '__sbox_inv']
+
   def __init__(self, param):
 
     print("LowMC init for " + param)
@@ -283,7 +287,7 @@ class LowMC:
 
       # Transform to inverse matrix
       for col in range(self.keysize, 0, -1):
-        for r in range(col -1):
+        for r in range(col - 1):
           if (mat[r][col - 1]):
             mat[r] = mat[r] ^ mat[col - 1]
             inv_mat[r] = inv_mat[r] ^ inv_mat[col - 1]
