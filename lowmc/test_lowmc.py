@@ -15,7 +15,7 @@ def main():
 
   # Instantiate LowMC with L1
   lowmc = LowMC('picnic-L1')
-  
+
   # Vectorset 1 for Picnic-L1
   key    = bytes([ 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ])
@@ -147,7 +147,7 @@ def testing(lowmc, vectorset, key, plain, cipher):
   print("------------------------------")
   print(vectorset)
   print("------------------------------")
-  lowmc.set_priv_key(key)
+  lowmc.private_key = key
   print("start encryption")
   cipher_new = lowmc.encrypt(plain)
   print("start decryption")
