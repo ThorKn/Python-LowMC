@@ -35,9 +35,8 @@ Prerequisites
 * Additional package: BitVector
 
 It's recommended to use a Python virtual environment like ``virtualenv``. The BitVector package can be installed with 
-``
-pip install BitVector 
-``
+::
+  pip install BitVector 
 
 Usage
 =======
