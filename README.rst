@@ -4,26 +4,26 @@ Python-LowMC
 
 Description
 =============
-Python-LowMC is a Python reimplementation of the LowMC blockcipher. LowMC is used in the Post-quantum signature scheme Picnic. Python-LowMC exists because i want to understand and learn the Picnic algorithm. Therefore i started with LowMC as one part of Picnic. There is a own Github repo ([Python-Picnic](https://github.com/ThorKn/Python-Picnic)) for the Python implementation of Picnic.   
+Python-LowMC is a Python reimplementation of the LowMC blockcipher. LowMC is used in the Post-quantum signature scheme Picnic. Python-LowMC exists because i want to understand and learn the Picnic algorithm. Therefore i started with LowMC as one part of Picnic. There is a own Github repo `Python-Picnic  <https://github.com/ThorKn/Python-Picnic/>`_ for the Python implementation of Picnic.   
 
 References
 =============
 LowMC (Low Multiplicative Complexity) is a blockcipher.
 The reference implementation is in C++ under MIT licence and can be found here:
 
-`LowMC Github <https://github.com/LowMC/lowmc/>`
+`LowMC Github <https://github.com/LowMC/lowmc/>`_
 
 The LowMC paper is available at:
 
-`LowMC paper <https://eprint.iacr.org/2016/687.pdf/>`
+`LowMC paper <https://eprint.iacr.org/2016/687.pdf/>`_
 
 The files in this Repository (Python-LowMC) are a Python re-implementation of LowMC for usage with the Picnic Post-quantum signature algorithm. The Picnic reference implementation is in C under MIT license and can be found here:
 
-`Picnic Github <https://github.com/Microsoft/Picnic/>`
+`Picnic Github <https://github.com/Microsoft/Picnic/>`_
 
 The Picnic paper is available at:
 
-`Picnic paper <https://microsoft.github.io/Picnic/>`
+`Picnic paper <https://microsoft.github.io/Picnic/>`_
 
 Disclaimer
 =============
@@ -48,9 +48,9 @@ Constants and matrices
 LowMC needs pre-calculated constants and matrices. Therefore the python-file ``generator.py`` is included. The generator creates ``picnic-<x>.dat`` files with ``<x>`` beeing the security level L1, L2 or L3. There are three pre-calculated files contained in this repository. They can be used for the tests without generating them. 
 
 If you wish to generate them for yourself, execute 
-``
-generator.py <arg>
-``
+::
+  generator.py <arg>
+
 with ``<arg>`` beeing one of the parameters ``picnic-L1``, ``picnic-L2`` or ``picnic-L3``. 
 For the detailed parameter sets of each security level see the Picnic paper (Link above).
 
@@ -65,9 +65,9 @@ There are 9 testvectors included. Three for each security level. They are taken 
 The LowMC Class
 ------------------
 You can instantiate LowMC by creating a LowMC Object from the file ``lowmc.py`` with the security level as a parameter string:
-``
-lowmc = LowMC('picnic-<x>')
-``
+::
+  lowmc = LowMC('picnic-<x>')
+
 with ``<x>`` beeing the security level L1, L2 or L3.
 
 On the LowMC object the following public functions are available:
