@@ -70,12 +70,12 @@ You can instantiate LowMC by creating a LowMC Object from the file ``lowmc.py`` 
 with ``<x>`` beeing the security level L1, L2 or L3.
 
 On the LowMC object the following public functions are available:
-``
-lowmc.generate_priv_key()
-lowmc.set_priv_key(priv_key)
-lowmc.encrypt(plaintext)
-lowmc.decrypt(ciphertext)
-``
+::
+  lowmc.generate_priv_key()
+  lowmc.set_priv_key(priv_key)
+  lowmc.encrypt(plaintext)
+  lowmc.decrypt(ciphertext)
+
 Where the parameters ``priv_key``, ``plaintext`` and ``ciphertext`` are raw bytes and their lengths have to match the security level parameters for ``keysize`` and ``blocksize``. 
 
 For examples see the file ``test_lowmc.py``.
