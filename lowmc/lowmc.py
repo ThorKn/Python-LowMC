@@ -93,8 +93,8 @@ class LowMC(object):
                         length self.__keysize_bytes
         """
         if (priv_key is None):
-             tmp_key = os.urandom(int(self.__keysize_bytes))
-             self.__priv_key = int.from_bytes(tmp_key, 'big')
+            tmp_key = os.urandom(int(self.__keysize_bytes))
+            self.__priv_key = int.from_bytes(tmp_key, 'big')
         else:
             assert (len(priv_key) == self.__keysize_bytes), \
                     "Private key has length != keysize"
@@ -125,7 +125,8 @@ class LowMC(object):
             self.__state = self.__state ^ self.__round_consts[i]
             self.__key_addition(i + 1)
 
-        result = bytearray(self.__state.to_bytes(self.__blocksize_bytes, 'big'))
+        result = bytearray(self.__state
+                           .to_bytes(self.__blocksize_bytes, 'big'))
         self.__state = None
         return result
 
@@ -153,15 +154,16 @@ class LowMC(object):
 
         self.__key_addition(0)
 
-        result = bytearray(self.__state.to_bytes(self.__blocksize_bytes, 'big'))
+        result = bytearray(self.__state
+                           .to_bytes(self.__blocksize_bytes, 'big'))
         self.__state = None
         return result
 
     def __apply_sbox(self) -> None:
-        state_copy = BitVector(intVal = self.__state, size=self.__blocksize)
+        state_copy = BitVector(intVal=self.__state, size=self.__blocksize)
 
         # Copy the identity part of the message
-        result_ident = state_copy[(3 * self.__number_sboxes):self.__blocksize]
+        result_id = state_copy[(3 * self.__number_sboxes):self.__blocksize]
 
         # Substitute the rest of the message with the sboxes
         # ----------------------------------------------------
@@ -179,13 +181,13 @@ class LowMC(object):
                                     size=3).reverse()
             result_sbox = result_sbox + sbox_3_bits
 
-        self.__state = int(result_sbox + result_ident)
+        self.__state = int(result_sbox + result_id)
 
     def __apply_sbox_inv(self) -> None:
-        state_copy = BitVector(intVal = self.__state, size = self.__blocksize)
+        state_copy = BitVector(intVal=self.__state, size=self.__blocksize)
 
         # Copy the identity part of the message
-        result_ident = state_copy[(3 * self.__number_sboxes):self.__blocksize]
+        result_id = state_copy[(3 * self.__number_sboxes):self.__blocksize]
 
         # Substitute the rest of the message with the inverse sboxes
         # ----------------------------------------------------
@@ -201,7 +203,7 @@ class LowMC(object):
                                     size=3).reverse()
             result_sbox = result_sbox + sbox_3_bits
 
-        self.__state = int(result_sbox + result_ident)
+        self.__state = int(result_sbox + result_id)
 
     def __multiply_with_lin_mat(self, r: int) -> None:
         result = 0
@@ -260,7 +262,8 @@ class LowMC(object):
         # Linear layer inverse matrices
         lines_offset += lines_count
         lines_count = self.__number_rounds * self.__blocksize
-        lin_layer_inv = const_data_split[lines_offset:(lines_offset + lines_count)]
+        lin_layer_inv = const_data_split[lines_offset:(lines_offset
+                                                       + lines_count)]
         for r in range(self.__number_rounds):
             mat = []
             for s in range(self.__blocksize):
