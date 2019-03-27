@@ -15,7 +15,6 @@ import time
 def main():
 
   t1 = time.time()
-
   # Instantiate LowMC with L1
   lowmc = LowMC('picnic-L1')
 
@@ -143,7 +142,6 @@ def main():
                    0x8F, 0xCF, 0x73, 0x17, 0x9D, 0x48, 0xE7, 0x9B ])
 
   testing(lowmc, "Picnic-L5: Vectorset 3", key, plain, cipher)
-
   t2 = time.time()
   print("Processing time: " + str(t2-t1))
 

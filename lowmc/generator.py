@@ -10,7 +10,7 @@ Version at Github HEAD:
 
 Modified by Thorsten Knoll, Feb 2019
 
-LowMC and this file are published 
+LowMC and this file are published
 under MIT Licence. See the LICENCE.md file.
 ---------------------------------------------------
 '''
@@ -55,6 +55,8 @@ def main():
     for _ in range(rounds):
         linlayers.append(instantiate_matrix(blocksize, blocksize, gen))
 
+    linlayersinv = invert_lin_matrix(linlayers, blocksize, keysize, rounds)
+
     round_constants = []
     for _ in range(rounds):
         constant = [next(gen) for _ in range(blocksize)]
@@ -73,6 +75,12 @@ def main():
             for row in linlayers[r]:
                 bv = BitVector(bitlist = row)
                 s += str(bv) + '\n'
+            matfile.write(s)
+
+        for r in range(rounds):
+            s = ''
+            for row in linlayersinv[r]:
+                s += str(row) + '\n'
             matfile.write(s)
 
         for r in range(rounds):
@@ -105,7 +113,7 @@ def rank(matrix):
     ''' Determine the rank of a binary matrix. '''
     # Copy matrix
     mat = [[x for x in row] for row in matrix]
-    
+
     n = len(matrix)
     m = len(matrix[0])
     for c in range(m):
@@ -151,7 +159,58 @@ def grain_ssg():
         index += 1
         index %= 80
 
+def invert_lin_matrix(matrix, blocksize, keysize, rounds):
+
+    lin_layer_inv = []
+    for r in range(rounds):
+
+        # Copy lin_layer
+        mat = []
+        for i in range(blocksize):
+            temp_bv = BitVector(bitlist=matrix[r][i])
+            mat.append(temp_bv)
+
+        # Create (initial identity) matrix, where the
+        # inverted matrix will be stored in.
+        inv_mat = []
+        for i in range(blocksize):
+            temp_bv = BitVector(intVal=0, size=blocksize)
+            temp_bv[i] = 1
+            inv_mat.append(temp_bv)
+
+        # Transform to upper triangular matrix
+        row = 0
+        for col in range(keysize):
+            if (not mat[row][col]):
+                r = row + 1
+                while ((r < blocksize) and (not mat[r][col])):
+                    r += 1
+                if (r >= blocksize):
+                    continue
+                else:
+                    temp = mat[row]
+                    mat[row] = mat[r]
+                    mat[r] = temp
+                    temp = inv_mat[row]
+                    inv_mat[row] = inv_mat[r]
+                    inv_mat[r] = temp
+            for i in range(row + 1, blocksize):
+                if (mat[i][col]):
+                    mat[i] = mat[i] ^ mat[row]
+                    inv_mat[i] = inv_mat[i] ^ inv_mat[row]
+            row += 1
+
+        # Transform to inverse matrix
+        for col in range(keysize, 0, -1):
+            for r in range(col - 1):
+                if (mat[r][col - 1]):
+                    mat[r] = mat[r] ^ mat[col - 1]
+                    inv_mat[r] = inv_mat[r] ^ inv_mat[col - 1]
+
+        lin_layer_inv.append(inv_mat)
+
+    return lin_layer_inv
+
 
 if __name__ == '__main__':
     main()
-
