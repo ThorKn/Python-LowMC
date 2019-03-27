@@ -4,7 +4,12 @@ Python-LowMC
 
 Description
 =============
-Python-LowMC is a Python reimplementation of the LowMC blockcipher. LowMC is used in the Post-quantum signature scheme Picnic. Python-LowMC exists because i want to understand and learn the Picnic algorithm. Therefore i started with LowMC as one part of Picnic. There is a own Github repo `Python-Picnic  <https://github.com/ThorKn/Python-Picnic/>`_ for the Python implementation of Picnic.   
+Python-LowMC is a Python reimplementation of the LowMC blockcipher. LowMC is
+used in the Post-quantum signature scheme Picnic. Python-LowMC exists because
+i want to understand and learn the Picnic algorithm. Therefore i started with
+LowMC as one part of Picnic. There is a own Github repo
+`Python-Picnic  <https://github.com/ThorKn/Python-Picnic/>`_
+for the Python implementation of Picnic.   
 
 References
 =============
@@ -34,9 +39,9 @@ Prerequisites
 * Python3 (tested with 3.6)
 * Additional package: BitVector
 
-It's recommended to use a Python virtual environment like ``virtualenv``. The BitVector package can be installed with 
+It's recommended to use a Python virtual environment like ``virtualenv``. The BitVector package can be installed with
 ::
-  pip install BitVector 
+  pip install BitVector
 
 Usage
 =======
@@ -44,13 +49,13 @@ Usage
 Constants and matrices
 ------------------------
 
-LowMC needs pre-calculated constants and matrices. Therefore the python-file ``generator.py`` is included. The generator creates ``picnic-<x>.dat`` files with ``<x>`` beeing the security level L1, L2 or L3. There are three pre-calculated files contained in this repository. They can be used for the tests without generating them. 
+LowMC needs pre-calculated constants and matrices. Therefore the python-file ``generator.py`` is included. The generator creates ``picnic-<x>.dat`` files with ``<x>`` beeing the security level L1, L2 or L3. There are three pre-calculated files contained in this repository. They can be used for the tests without generating them.
 
-If you wish to generate them for yourself, execute 
+If you wish to generate them for yourself, execute
 ::
   generator.py <arg>
 
-with ``<arg>`` beeing one of the parameters ``picnic-L1``, ``picnic-L2`` or ``picnic-L3``. 
+with ``<arg>`` beeing one of the parameters ``picnic-L1``, ``picnic-L2`` or ``picnic-L3``.
 For the detailed parameter sets of each security level see the Picnic paper (Link above).
 
 Tests
@@ -76,7 +81,7 @@ On the LowMC object the following public functions are available:
   lowmc.encrypt(plaintext)
   lowmc.decrypt(ciphertext)
 
-Where the parameters ``priv_key``, ``plaintext`` and ``ciphertext`` are raw bytes and their lengths have to match the security level parameters for ``keysize`` and ``blocksize``. 
+Where the parameters ``priv_key``, ``plaintext`` and ``ciphertext`` are raw bytes and their lengths have to match the security level parameters for ``keysize`` and ``blocksize``.
 
 For examples see the file ``test_lowmc.py``.
 

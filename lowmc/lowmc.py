@@ -1,6 +1,5 @@
 """The LowMC blockcipher in Python."""
 
-from BitVector import BitVector
 import os
 from typing import Optional
 
@@ -62,8 +61,10 @@ class LowMC(object):
         self.__lin_layer_inv = []
         self.__round_consts = []
         self.__round_key_mats = []
-        self.__sbox = [0x00, 0x01, 0x03, 0x06, 0x07, 0x04, 0x05, 0x02]
-        self.__sbox_inv = [0x00, 0x01, 0x07, 0x02, 0x05, 0x06, 0x03, 0x04]
+        self.__sbox = ['000', '001', '011', '110',
+                       '111', '100', '101', '010']
+        self.__sbox_inv = ['000', '001', '111', '010',
+                           '101', '110', '011', '100']
 
         self.__read_constants()
         # self.__invert_lin_matrix()
@@ -160,12 +161,13 @@ class LowMC(object):
         return result
 
     def __apply_sbox(self) -> None:
-        state_copy = BitVector(intVal=self.__state, size=self.__blocksize)
+        state_str = format(self.__state, '0{0}b'
+                           .format(self.__blocksize))
 
         # Copy the identity part of the message
-        result_id = state_copy[(3 * self.__number_sboxes):self.__blocksize]
+        result_id = state_str[(3 * self.__number_sboxes):self.__blocksize]
 
-        # Substitute the rest of the message with the sboxes
+        # Substitute the rest of the state with the sboxes
         # ----------------------------------------------------
         # ATTENTION: The 3-bit chunks seem to be reversed
         # in the Picnic-Ref-Implementation, compared to the
@@ -173,21 +175,21 @@ class LowMC(object):
         # Example: state[0:3]='001' becomes '100' then gets sboxed
         # to '111' and reversed again for the state-update.
         # ----------------------------------------------------
-        result_sbox = BitVector(size=0)
+        result_sbox = ''
         for i in range(self.__number_sboxes):
             state_index = (3 * i)
-            state_3_bits = state_copy[state_index:state_index + 3].reverse()
-            sbox_3_bits = BitVector(intVal=self.__sbox[int(state_3_bits)],
-                                    size=3).reverse()
+            state_3_bits = state_str[state_index:state_index + 3][::-1]
+            sbox_3_bits = self.__sbox[int(state_3_bits, 2)][::-1]
             result_sbox = result_sbox + sbox_3_bits
 
-        self.__state = int(result_sbox + result_id)
+        self.__state = int(result_sbox + result_id, 2)
 
     def __apply_sbox_inv(self) -> None:
-        state_copy = BitVector(intVal=self.__state, size=self.__blocksize)
+        state_str = format(self.__state, '0{0}b'
+                           .format(self.__blocksize))
 
         # Copy the identity part of the message
-        result_id = state_copy[(3 * self.__number_sboxes):self.__blocksize]
+        result_id = state_str[(3 * self.__number_sboxes):self.__blocksize]
 
         # Substitute the rest of the message with the inverse sboxes
         # ----------------------------------------------------
@@ -195,15 +197,14 @@ class LowMC(object):
         # in the Picnic-Ref-Implementation, compared to the
         # LowMC-Ref-Implementation and the original LowMC-paper.
         # ----------------------------------------------------
-        result_sbox = BitVector(size=0)
+        result_sbox = ''
         for i in range(self.__number_sboxes):
             state_index = (3 * i)
-            state_3_bits = state_copy[state_index:state_index + 3].reverse()
-            sbox_3_bits = BitVector(intVal=self.__sbox_inv[int(state_3_bits)],
-                                    size=3).reverse()
+            state_3_bits = state_str[state_index:state_index + 3][::-1]
+            sbox_3_bits = self.__sbox_inv[int(state_3_bits, 2)][::-1]
             result_sbox = result_sbox + sbox_3_bits
 
-        self.__state = int(result_sbox + result_id)
+        self.__state = int(result_sbox + result_id, 2)
 
     def __multiply_with_lin_mat(self, r: int) -> None:
         result = 0
