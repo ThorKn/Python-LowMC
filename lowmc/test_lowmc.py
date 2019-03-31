@@ -1,7 +1,7 @@
 '''
 LowMC Blockcipher Tests
 Author: Thorsten Knoll
-Date: Feb 2019
+Date: March 2019
 
 Description:
 Instantiates LowMC in the variants for
